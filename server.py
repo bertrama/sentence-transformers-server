@@ -25,6 +25,12 @@ parser.add_argument(
         help="Cache size for sentence embeddings",
         default=2048,
     )
+parser.add_argument(
+        "--host",
+        type=str,
+        help="Host IP to bind to",
+        default='127.0.0.1',
+    )
 args = parser.parse_args()
 
 model = SentenceTransformer(args.model)
@@ -78,4 +84,4 @@ def semantic_search():
     scores = util.dot_score(query_embedding, document_embeddings).squeeze()
     return {"similarities": [float(s) for s in scores]}
 
-bottle.run(port=args.port, server="cheroot")
+bottle.run(port=args.port, server="cheroot", host=args.host)
